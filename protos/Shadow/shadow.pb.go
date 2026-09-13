@@ -21,27 +21,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type HelloShadow struct {
+type RequestInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *HelloShadow) Reset() {
-	*x = HelloShadow{}
+func (x *RequestInfo) Reset() {
+	*x = RequestInfo{}
 	mi := &file_protos_Shadow_shadow_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *HelloShadow) String() string {
+func (x *RequestInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*HelloShadow) ProtoMessage() {}
+func (*RequestInfo) ProtoMessage() {}
 
-func (x *HelloShadow) ProtoReflect() protoreflect.Message {
+func (x *RequestInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_Shadow_shadow_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,12 +53,12 @@ func (x *HelloShadow) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HelloShadow.ProtoReflect.Descriptor instead.
-func (*HelloShadow) Descriptor() ([]byte, []int) {
+// Deprecated: Use RequestInfo.ProtoReflect.Descriptor instead.
+func (*RequestInfo) Descriptor() ([]byte, []int) {
 	return file_protos_Shadow_shadow_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *HelloShadow) GetName() string {
+func (x *RequestInfo) GetName() string {
 	if x != nil {
 		return x.Name
 	}
@@ -114,12 +114,14 @@ var File_protos_Shadow_shadow_proto protoreflect.FileDescriptor
 const file_protos_Shadow_shadow_proto_rawDesc = "" +
 	"\n" +
 	"\x1aprotos/Shadow/shadow.proto\x12\x06Shadow\"!\n" +
-	"\vHelloShadow\x12\x12\n" +
+	"\vRequestInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"'\n" +
 	"\vReplyShadow\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2A\n" +
-	"\x06Shadow\x127\n" +
-	"\tSayShadow\x12\x13.Shadow.HelloShadow\x1a\x13.Shadow.ReplyShadow\"\x00B\x0fZ\r://github.comb\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2~\n" +
+	"\x06Shadow\x12:\n" +
+	"\fSaySearchAds\x12\x13.Shadow.RequestInfo\x1a\x13.Shadow.ReplyShadow\"\x00\x128\n" +
+	"\n" +
+	"SayHomeAds\x12\x13.Shadow.RequestInfo\x1a\x13.Shadow.ReplyShadow\"\x00B\x0fZ\r://github.comb\x06proto3"
 
 var (
 	file_protos_Shadow_shadow_proto_rawDescOnce sync.Once
@@ -135,14 +137,16 @@ func file_protos_Shadow_shadow_proto_rawDescGZIP() []byte {
 
 var file_protos_Shadow_shadow_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_protos_Shadow_shadow_proto_goTypes = []any{
-	(*HelloShadow)(nil), // 0: Shadow.HelloShadow
+	(*RequestInfo)(nil), // 0: Shadow.RequestInfo
 	(*ReplyShadow)(nil), // 1: Shadow.ReplyShadow
 }
 var file_protos_Shadow_shadow_proto_depIdxs = []int32{
-	0, // 0: Shadow.Shadow.SayShadow:input_type -> Shadow.HelloShadow
-	1, // 1: Shadow.Shadow.SayShadow:output_type -> Shadow.ReplyShadow
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // 0: Shadow.Shadow.SaySearchAds:input_type -> Shadow.RequestInfo
+	0, // 1: Shadow.Shadow.SayHomeAds:input_type -> Shadow.RequestInfo
+	1, // 2: Shadow.Shadow.SaySearchAds:output_type -> Shadow.ReplyShadow
+	1, // 3: Shadow.Shadow.SayHomeAds:output_type -> Shadow.ReplyShadow
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

@@ -19,14 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Shadow_SayShadow_FullMethodName = "/Shadow.Shadow/SayShadow"
+	Shadow_SaySearchAds_FullMethodName = "/Shadow.Shadow/SaySearchAds"
+	Shadow_SayHomeAds_FullMethodName   = "/Shadow.Shadow/SayHomeAds"
 )
 
 // ShadowClient is the client API for Shadow service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ShadowClient interface {
-	SayShadow(ctx context.Context, in *HelloShadow, opts ...grpc.CallOption) (*ReplyShadow, error)
+	SaySearchAds(ctx context.Context, in *RequestInfo, opts ...grpc.CallOption) (*ReplyShadow, error)
+	SayHomeAds(ctx context.Context, in *RequestInfo, opts ...grpc.CallOption) (*ReplyShadow, error)
 }
 
 type shadowClient struct {
@@ -37,10 +39,20 @@ func NewShadowClient(cc grpc.ClientConnInterface) ShadowClient {
 	return &shadowClient{cc}
 }
 
-func (c *shadowClient) SayShadow(ctx context.Context, in *HelloShadow, opts ...grpc.CallOption) (*ReplyShadow, error) {
+func (c *shadowClient) SaySearchAds(ctx context.Context, in *RequestInfo, opts ...grpc.CallOption) (*ReplyShadow, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ReplyShadow)
-	err := c.cc.Invoke(ctx, Shadow_SayShadow_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Shadow_SaySearchAds_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shadowClient) SayHomeAds(ctx context.Context, in *RequestInfo, opts ...grpc.CallOption) (*ReplyShadow, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReplyShadow)
+	err := c.cc.Invoke(ctx, Shadow_SayHomeAds_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +63,8 @@ func (c *shadowClient) SayShadow(ctx context.Context, in *HelloShadow, opts ...g
 // All implementations must embed UnimplementedShadowServer
 // for forward compatibility.
 type ShadowServer interface {
-	SayShadow(context.Context, *HelloShadow) (*ReplyShadow, error)
+	SaySearchAds(context.Context, *RequestInfo) (*ReplyShadow, error)
+	SayHomeAds(context.Context, *RequestInfo) (*ReplyShadow, error)
 	mustEmbedUnimplementedShadowServer()
 }
 
@@ -62,8 +75,11 @@ type ShadowServer interface {
 // pointer dereference when methods are called.
 type UnimplementedShadowServer struct{}
 
-func (UnimplementedShadowServer) SayShadow(context.Context, *HelloShadow) (*ReplyShadow, error) {
-	return nil, status.Error(codes.Unimplemented, "method SayShadow not implemented")
+func (UnimplementedShadowServer) SaySearchAds(context.Context, *RequestInfo) (*ReplyShadow, error) {
+	return nil, status.Error(codes.Unimplemented, "method SaySearchAds not implemented")
+}
+func (UnimplementedShadowServer) SayHomeAds(context.Context, *RequestInfo) (*ReplyShadow, error) {
+	return nil, status.Error(codes.Unimplemented, "method SayHomeAds not implemented")
 }
 func (UnimplementedShadowServer) mustEmbedUnimplementedShadowServer() {}
 func (UnimplementedShadowServer) testEmbeddedByValue()                {}
@@ -86,20 +102,38 @@ func RegisterShadowServer(s grpc.ServiceRegistrar, srv ShadowServer) {
 	s.RegisterService(&Shadow_ServiceDesc, srv)
 }
 
-func _Shadow_SayShadow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloShadow)
+func _Shadow_SaySearchAds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShadowServer).SayShadow(ctx, in)
+		return srv.(ShadowServer).SaySearchAds(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Shadow_SayShadow_FullMethodName,
+		FullMethod: Shadow_SaySearchAds_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShadowServer).SayShadow(ctx, req.(*HelloShadow))
+		return srv.(ShadowServer).SaySearchAds(ctx, req.(*RequestInfo))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Shadow_SayHomeAds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestInfo)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShadowServer).SayHomeAds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Shadow_SayHomeAds_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShadowServer).SayHomeAds(ctx, req.(*RequestInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +146,12 @@ var Shadow_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ShadowServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SayShadow",
-			Handler:    _Shadow_SayShadow_Handler,
+			MethodName: "SaySearchAds",
+			Handler:    _Shadow_SaySearchAds_Handler,
+		},
+		{
+			MethodName: "SayHomeAds",
+			Handler:    _Shadow_SayHomeAds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
